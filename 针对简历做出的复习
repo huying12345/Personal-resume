@@ -1,1 +1,62 @@
-1、W3C标准、媒体查询
+1、W3C标准
+答：需要声明（DOCTYPE）文档类型，便于浏览器准确的解释；需要定义语言编码，如果不声明页面可能会乱码；
+JavaScript定义，<script language="javascript" type="text/javascript">CSS必须要用<style type=“text/css”>开头来定义，为保证各浏览器的兼容性来开头定义，以保证在不支持js的浏览器上直接显示出来；
+CSS必须要用<style type=“text/css”>开头来定义，为保证各浏览器的兼容性；
+所有标签的元素和属性名字都必须使用小写，属性要有对应的属性值，没有默认等于自身，每个标签都要有结束标记，特殊符号要用编码来标识等等
+
+2、媒体查询
+答：@media查询。@media mediatype and|not|only (media feature) {CSS Code;}
+@media screen and (max-width: 300px) {
+  .title {
+    color: red
+  }
+}
+
+3、ES5和ES6的区别
+答：1）模块引用，Es5是通过require进行，Es6是通过import
+2）导出单个类，Es5是module.exports = className，Es6是export default className
+3）定义组件的属性类型和默认属性，Es5里面，分别通过propsTypes和getDefaultProps来实现，Es6里面统一使用static
+4）初始化state，Es5：getInitialState，
+Es6：constructor(props){
+  super(props);
+}
+5）方法回调，Es6需要xxxx.bind(this)或者箭头函数（e=>xxx(e)）来使用
+
+4、localStorage、sessionStorage、cookie的使用
+localStorage：长期保存在网站的数据，只能手动删除
+sessionStorage：临时保存在窗口的数据，关闭窗口会删除这些数据
+cookie：本地缓存，可以存放一些我们已经访问过的信息，但是不能存放用户信息，不安全
+Cookie不是内置对象，所以用的时候需要new出来，Cookie是由服务端产生的，再发送给客户端保存，它不是内置对象，却是由服务端产生的，产生完后给了客户端
+cookie清楚通过设定expire值
+
+5、Ajax = JavaScript + XML
+XMLHttpRequest是Ajax的基础
+兼容IE5和IE6的写法：
+var xmlhttp = ''
+if (window.XMLHttpRequest)
+{// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+}
+else
+{// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+}
+xmlhttp.open('GET', 'test1.txt', true) // 方法，URL，是否异步
+xmlhttp.send();
+
+get比post更快，但是不安全，有数量限制
+
+6、jsonp
+jsonp的核心原理就是目标页面回调本地页面的方法,并带入参数
+<script type='text/javascript' src='https://xxxxxx?callback=functionName'
+这里的functionName就是你写的函数的名字
+
+
+
+
+
+
+
+
+
+
