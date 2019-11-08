@@ -51,8 +51,100 @@ jsonp的核心原理就是目标页面回调本地页面的方法,并带入参�
 <script type='text/javascript' src='https://xxxxxx?callback=functionName'
 这里的functionName就是你写的函数的名字
 
+7、axios
+Axios是一个基于Promise的HTTP库
+客户端使用，即把原来的ajax替换成axios，写法如下：
+1）axios.get('/user', {id: '1234'}).then(res => {}).catch(err => {})
+其中then是成功回调，catch是失败回调
+2）axios.post('/user', {id: '1234'}).then(res => {}).catch(err => {})
+也可以通过配置config来创建请求：
+3）axios({
+  method: 'post',
+  url: 'http://jsonplaceholder.typicode.com/users',
+  data: {
+    id: '1234'
+  }
+}).then(res => {}).catch(err => {})
+4）执行多个并发请求
+function getUserAccount() {
+  return axios.get('/user/12345');   //请求1
+} 
+function getUserPermissions() {
+  return axios.get('/user/12345/permissions');   //请求2
+}
+axios.all([getUserAccount(), getUserPermissions()])
+.then(axios.spread((res1, res2) => {
+  //  res1是请求1的返回结果
+  //  res2是请求2的返回结果
+}))
+5）创建实例
+let instance = axios.create({
+  url: '', // url是必需条件
+  mthod: '',
+  ...
+})
+6）添加拦截器
+axios.interceptors.request.use(res => {
+  //  在发送请求之前做些什么
+  return res
+}, error => {
+  // 对请求错误做些什么
+  return Promise.reject(error)
+})
+在Vue项目里面引用，可以通过单独建立一个js文件，Vue.prototype.$axios = axios
+后面直接this.$axios.get|post|all()
 
+8、fetch
+fetch是一种HTTP请求方式，是XMLHttpRequest的一种替代方案，fetch不是ajax的进一步封装，而是原生js，没有使用XMLHttpRequest对象。
+第一个参数是URL，使用了Promise对象来处理结果/回调
+fetch(url)
+.then(res => {
+  return res.json() // http响应，不是真正的json数据，需要转换
+})
+.catch(err => {
+  console.log(err)
+})
+第二个参数是可选参数，可以控制不同配置的init对象，
+postData('http://example.com/answer', {answer: 42})
+  .then(data => console.log(data)) // data已经是json数据
+  .catch(error => console.error(error))
 
+function postData(url, data) {
+  return fetch(url, {
+    body: JSON.stringify(data), // 必须和headers里面的content-type类型保持一致
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'user-agent': 'Mozilla/4.0 MDN Example',
+      'content-type': 'application/json'
+    },
+    method: 'POST',
+    mode: 'cors',
+    redirect: 'follow',
+    referrer: 'no-referrer',
+  })
+  .then(response => response.json()) // 把返回的数据包成json格式
+}
+credentials：1）include（让浏览器发送包含凭据的请求（即使是跨域源））
+             2）same-origin（只想在请求URL与调用脚本位于同一起源处时发送凭据）
+             3）omit（确保浏览器不在请求中包含凭据）
+
+上传文件：可以通过HTML<input type="file" />元素，FormData() 和fetch()上传文件
+
+fetch和ajax的主要区别：
+fetch返回promise不会拒绝http的错误状态，即使响应是http 404或者500
+在默认情况下不会接受或者发送cookies
+
+9、promise
+存在的意义在于：将异步操作队列化，按照期望的顺序执行，返回符合预期的结果
+详细的请参考官网：http://es6.ruanyifeng.com/#docs/promise
+
+10、px、rem、em
+px：是固定像素，无法自适应页面大小
+rem：相对长度单位，适用于响应式布局，是相对于根元素<html>来设置，只需要确定一个根元素的值
+em：相对长度单位，适用于响应式布局，em是相对于父元素设置，那就意味着必须设置每个父元素的大小
+
+11、flex布局
 
 
 
