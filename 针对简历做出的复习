@@ -146,6 +146,138 @@ em：相对长度单位，适用于响应式布局，em是相对于父元素设�
 
 11、flex布局
 
+12、Sass 、Scss、Less 和 Stylus区别总结
+1、css预处理语言的概念：是一种语言，用来为 CSS 增加一些编程的的特性，无需考虑浏览器的兼容性问题，
+可以在CSS中使用变量，简单的程序逻辑，函数等等在编程中，可以让CSS更加简洁，适应性更强，代码更直观。
+2、基本语法区别
+/*style.less or style.scss*/
+h1{
+  color: #0982C1;
+}
+
+/*style.sass*/ sass支持老的写法，不带花括号和结尾分号
+h1
+  color: #0982C1
+
+/*style.styl*/ stylus支持不带花括号，不带冒号，不带结尾分号
+h1{
+  color: #0982C1;
+}
+h1
+  color: #0982C1;
+h1
+  color #0982C1
+
+3、变量
+sass为css引入了变量（$开头），可以把反复使用的css属性值定义成变量（:隔开），通过变量引用：$borderLeft: solid 1px #ccc
+
+less的变量是通过@开头，其他与sass一致：@leftPadding: 20px
+
+stylus的变量没有任何设定，除了不能用@开头之外，还可以用：或者=隔开：borderRight: solid 2px red
+
+嵌套：
+父元素里面可以直接嵌套子元素，不用在层层声明
+
+ul{
+  li-style: none;
+  li{
+    color: red
+  }
+}
+
+运算符：
+预处理器中可以直接进行样式计算：
+body{
+  margin: (14px/2);
+}
+
+sass对颜色处理的函数：
+lighten($color, 10%); 
+darken($color, 10%);  
+saturate($color, 10%);   
+desaturate($color, 10%);
+grayscale($color);  
+complement($color); 
+invert($color); 
+mix($color1, $color2, 50%); 
+用法：
+$color: #0982C1;
+h1{
+  border: 1px solid darken($color, 50%)
+}
+
+less对颜色处理的函数：
+lighten(@color, 10%); 
+darken(@color, 10%);  
+saturate(@color, 10%);  
+desaturate(@color, 10%); 
+spin(@color, 10); 
+spin(@color, -10); 
+mix(@color1, @color2);
+用法：
+@color: #0982C1;
+h1{
+  border: 1px solid darken(@color, 50%)
+}
+
+stylus对颜色处理的函数：
+lighten(color, 10%); 
+darken(color, 10%);  
+saturate(color, 10%);  
+desaturate(color, 10%); 
+用法：
+color: #0982C1;
+h1{
+  border: 1px solid darken(color, 50%)
+}
+
+sass可以通过@extend来实现代码组合声明，使代码更加简洁：
+.message {
+  border: 1px solid #ccc;
+  padding: 10px;
+  color: #333;
+}
+.success {
+  @extend .message;
+  border-color: green;
+}
+.error {
+  @extend .message;
+  border-color: red;
+}
+
+less相比：
+.success {
+  .message;
+  border-color: green;
+}
+.error {
+  .message;
+  border-color: red;
+}
+
+混入语法
+sass语法：
+@mixin error($borderWidth: 2px) {
+  border: $borderWidth solid #F00;
+  color: #F00;
+}
+.generic-error {
+  padding: 20px;
+  margin: 4px;
+  @ include error(); //这里调用默认 border: 2px solid #F00;
+}
+
+less语法：
+.error($borderWidth: 2px) {
+  border: $borderWidth solid #F00;
+  color: #F00;
+}
+.generic-error {
+  padding: 20px;
+  margin: 4px;
+  .error(); //这里调用默认 border: 2px solid #F00;
+}
 
 
 
